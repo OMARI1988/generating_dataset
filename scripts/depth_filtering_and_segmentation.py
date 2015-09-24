@@ -29,16 +29,23 @@ class scene_segment():
                                          graph.node[dst]['pixel count'])
 
     def segment_image(self,img):
-        labels = segmentation.slic(img, compactness=30, n_segments=200)
-        g = graph.rag_mean_color(img, labels)
-        labels2 = graph.merge_hierarchical(labels, g, thresh=30, rag_copy=False,
-                                       in_place_merge=True,
-                                       merge_func=self.merge_mean_color,
-                                       weight_func=self._weight_mean_color)
-        self.result = color.label2rgb(labels2, img, kind='avg')
-        cv2.imshow('segmentation',self.result)
-        k = cv2.waitKey(1) & 0xFF
-        return self.result
+        # segmentation.quickshift(img)
+
+        labels1 = segmentation.slic(img, compactness=50, n_segments=100)
+        out1 = color.label2rgb(labels1, img, kind='avg')
+        cv2.imshow('test',out1)
+
+        # g = graph.rag_mean_color(img, labels1)
+        # labels2 = graph.merge_hierarchical(labels1, g, thresh=30, rag_copy=False,
+        #                                in_place_merge=True,
+        #                                merge_func=self.merge_mean_color,
+        #                                weight_func=self._weight_mean_color)
+        # # print '>>> this is easy 3'
+        # self.result = color.label2rgb(labels2, img, kind='avg')
+        # # print '>>> this is easy 4'
+        # cv2.imshow('segmentation',self.result)
+        # k = cv2.waitKey(1) & 0xFF
+        # return self.result
 
 
 #--------------------------------------------------------------------------------------#
